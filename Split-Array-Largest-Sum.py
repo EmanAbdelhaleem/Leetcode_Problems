@@ -1,15 +1,13 @@
 class Solution:
-    def days_to_finish(self,nums, mid):
-        days = 1
+    def splits_when_lar_sum(self,nums, lar_sum):
+        splits = 1
         cur = 0
-        max_sum = 0
         for i in nums:
-            if cur+i > mid:
-                days+=1
+            if cur+i > lar_sum:
+                splits+=1
                 cur = 0
             cur += i
-            max_sum = max(max_sum, cur)
-        return [days, max_sum]
+        return splits
 
 
     def splitArray(self, nums: List[int], k: int) -> int:
@@ -17,8 +15,8 @@ class Solution:
 
         while (low < high):
             mid = (low + high)//2
-            if self.days_to_finish(nums, mid)[0] > k:
+            if self.splits_when_lar_sum(nums, mid) > k:
                 low = mid + 1 
             else: high = mid
         
-        return self.days_to_finish(nums,low)[1]
+        return low
