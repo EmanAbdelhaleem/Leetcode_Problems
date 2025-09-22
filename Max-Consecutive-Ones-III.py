@@ -1,24 +1,23 @@
 class Solution:
     def longestOnes(self, nums: List[int], k: int) -> int:
-        l = 0
-        r = 0
-        n = len(nums)
-        flipped = 0
-        sum = 0
-        ans = 0
-        while (l < n):
-            while r < n:
-                if (flipped == k and nums[r] == 0): break
-                sum += 1
-                flipped += (1-nums[r])
-                r+=1
-            
-            ans = max(ans,sum)
 
-            sum -= 1
-            flipped -= (1-nums[l])
-            l+=1
-        
+        n = len(nums)
+        pref = [0]*(n+1)
+        ans = 0
+        mp = {0:0}
+        ans = 0
+        for idx, val in enumerate(nums, start = 1):
+            pref[idx] = pref[idx-1] + (1-val)
+            if pref[idx] <= k:
+                ans = idx
+            else:
+                ans = max(ans, idx - mp.get(pref[idx]-k,idx))
+            
+            mp[pref[idx]] = min(idx,mp.get(pref[idx],float('inf')))
         return ans
+
+        
+
+            
 
         
